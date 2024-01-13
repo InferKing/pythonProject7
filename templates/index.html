@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+</head>
+<body>
+    <h1>Главная страница</h1>
+    <h2>Выберите никнейм</h2>
+    <div>
+        <b id="resUsername"></b>
+    </div>
+    <div>
+        <input type="text" id="username" placeholder="Username">
+        <button class="btn-username">Сохранить никнейм</button>
+    </div>
+    <h2 class="lbl-clicks">Количество нажатий: <span></span></h2>
+    <button class="btn-clicks">Нажми меня!</button>
+    <script>
+        var btnClicks = document.querySelector('.btn-clicks');
+        var lblClicks = document.querySelector('.lbl-clicks').querySelector('span');
+        var btnUsername = document.querySelector('.btn-username');
+        
+        function setUsername() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/set_username', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                    let result = JSON.parse(xhr.responseText);
+                    // {'username': 'admin123', 'clicks': 200}
+                    lblClicks.textContent = result['clicks'];
+                    resUsername.textContent = result['username'];
+                }
+            }
+            xhr.send(username.value);
+        }
+
+        function sendData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/process_clicks', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                    let result = JSON.parse(xhr.responseText);
+                    lblClicks.textContent = result.response;
+                }
+            }
+            xhr.send();
+        }
+
+        function getData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_clicks', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                    let result = JSON.parse(xhr.responseText);
+                    lblClicks.textContent = result.response;
+                }   
+            }
+            xhr.send();
+        }
+
+        btnClicks.addEventListener('click', sendData);
+
+        getData();
+        const interval = setInterval(getData, 1000);
+
+    </script>
+</body>
+</html>
