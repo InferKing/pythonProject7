@@ -5,6 +5,9 @@ import threading as th
 messages = []
 
 temp = None
+t10 = (10, 10)
+t12 = (12, 0)
+ew = "ew"
 ctk.set_appearance_mode("dark")
 app = ctk.CTk()
 app.geometry("560x320")
@@ -52,12 +55,12 @@ def btn_callback():
 
 
 lbl = ctk.CTkLabel(app, text="Чат с нейросетью", height=30, font=("Helvetica", 24))
-lbl.grid(row=0, column=0, columnspan=2, sticky="ew", pady=(10, 10))
+lbl.grid(row=0, column=0, columnspan=2, sticky=ew, pady=t10)
 textbox = ctk.CTkTextbox(app, state="disabled")
-textbox.grid(row=1, column=0, padx=(10, 10), pady=(12, 0), columnspan=2, sticky="ew")
+textbox.grid(row=1, column=0, padx=t10, pady=t12, columnspan=2, sticky=ew)
 entry = ctk.CTkEntry(app, height=34, placeholder_text="Введи сообщение")
-entry.grid(row=2, column=0, pady=(12, 0), padx=(10, 10), sticky="ew")
+entry.grid(row=2, column=0, pady=t12, padx=t10, sticky=ew)
 btn = ctk.CTkButton(app, text="Отправить", height=34, command=btn_callback)
-btn.grid(row=2, column=1, pady=(12, 0), padx=(10, 10), sticky="ew")
+btn.grid(row=2, column=1, pady=t12, padx=t10, sticky=ew)
 app.bind("<<TaskCompleted>>", handle_task)
 app.mainloop()
